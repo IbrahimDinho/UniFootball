@@ -1,0 +1,161 @@
+{% extends "base.html" %} {% block title %} {{user.playerprofile.team.name}} {% endblock %} 
+{% load static %}
+
+
+
+{% block content %}
+<h3 class="display-5 mt-3 mb-3 text-center">{{user.playerprofile.team.name}}</h3>
+<!-- man of the match -->
+{% if motm %}
+<div class="card-header text-left">Man of the match</div>
+<div class="card-group m-3 pb-3">
+    {% for man in motm %} 
+        <div class="card" style="max-width: 14rem;">
+            {% if man.profile_picture %} 
+                <img src="{{man.profile_picture.url}}" alt="" class="card-img-top img-fluid">
+            {% else %}
+            <img src="{% static 'img/default_profile_pic.png' %}" alt="" class="card-img-top img-fluid">
+            {% endif %}
+            <div class="card-body">
+                <div class="card-title" style="font-weight:bold; font-size: larger;">{{man.user.first_name}} {{man.user.last_name}}</div>
+                <div class="card-subtitle font-weight-light">{{man.football_position}}</div>
+            </div>
+    </div>
+    {% endfor %} <!-- endfor loop here so another card made within card group -->
+</div>
+
+{% else %}
+ <div class="card mt-3">
+    <h3 class="mb-6 mx-5 card-title"> No Man of the match added to team</h3>
+    </div>
+ {% endif %} 
+
+<!-- managers-->
+ {% if managers %}
+ <div class="card-header text-left">Managers</div>
+<div class="card-group m-3 pb-3">
+    {% for manager in managers %} 
+        <div class="card" style="max-width: 14rem;">
+            {% if manager.profile_picture %} 
+                <img src="{{manager.profile_picture.url}}" alt="" class="card-img-top img-fluid">
+            {% else %}
+            <img src="{% static 'img/default_profile_pic.png' %}" alt="" class="card-img-top img-fluid">
+            {% endif %}
+            <div class="card-body">
+                <div class="card-title" style="font-weight:bold; font-size: larger;">{{manager.user.first_name}} {{manager.user.last_name}}</div>
+                <div class="card-subtitle font-weight-light">Manager</div>
+            </div>
+    </div>
+    {% endfor %} <!-- endfor loop here so another card made within card group -->
+</div>
+
+{% else %}
+ <div class="card mt-3 pb-5">
+    <h3 class="mb-6 mx-5 card-title"> No Managers added to team</h3>
+    </div>
+ {% endif %} 
+
+ <!-- Goalkeepers -->
+{% if goalkeepers %}
+<div class="card-header text-left">Goalkeepers</div>
+<div class="card-group m-3 pb-3">
+    {% for gk in goalkeepers %} 
+        <div class="card" style="max-width: 14rem;">
+            {% if gk.profile_picture %} 
+                <img src="{{gk.profile_picture.url}}" alt="" class="card-img-top img-fluid">
+            {% else %}
+            <img src="{% static 'img/default_profile_pic.png' %}" alt="" class="card-img-top img-fluid">
+            {% endif %}
+            <div class="card-body">
+                <div class="card-title" style="font-weight:bold; font-size: larger;">{{gk.user.first_name}} {{gk.user.last_name}}</div>
+                <div class="card-subtitle font-weight-light">GoalKeeper</div>
+            </div>
+    </div>
+    {% endfor %} <!-- endfor loop here so another card made within card group -->
+</div>
+
+{% else %}
+ <div class="card mt-3">
+    <h3 class="mb-6 mx-5 card-title"> No Goalie added to team</h3>
+    </div>
+ {% endif %} 
+
+
+<!-- Defenders -->
+{% if defenders %}
+<div class="card-header text-left">Defenders</div>
+<div class="card-group m-3 pb-3">
+    {% for def in defenders %} 
+        <div class="card" style="max-width: 14rem;">
+            {% if def.profile_picture %} 
+                <img src="{{def.profile_picture.url}}" alt="" class="card-img-top img-fluid">
+            {% else %}
+            <img src="{% static 'img/default_profile_pic.png' %}" alt="" class="card-img-top img-fluid">
+            {% endif %}
+            <div class="card-body">
+                <div class="card-title" style="font-weight:bold; font-size: larger;">{{def.user.first_name}} {{def.user.last_name}}</div>
+                <div class="card-subtitle font-weight-light">Defender</div>
+            </div>
+    </div>
+    {% endfor %} <!-- endfor loop here so another card made within card group -->
+</div>
+
+{% else %}
+ <div class="card mt-3">
+    <h3 class="mb-6 mx-5 card-title"> No Defenders added to team</h3>
+    </div>
+ {% endif %} 
+
+<!-- mid -->
+{% if midfielders %}
+<div class="card-header text-left">Midfielders</div>
+<div class="card-group m-3 pb-3">
+    {% for mid in midfielders %} 
+        <div class="card" style="max-width: 14rem;">
+            {% if mid.profile_picture %} 
+                <img src="{{mid.profile_picture.url}}" alt="" class="card-img-top img-fluid">
+            {% else %}
+            <img src="{% static 'img/default_profile_pic.png' %}" alt="" class="card-img-top img-fluid">
+            {% endif %}
+            <div class="card-body">
+                <div class="card-title" style="font-weight:bold; font-size: larger;">{{mid.user.first_name}} {{mid.user.last_name}}</div>
+                <div class="card-subtitle font-weight-light">Midfield</div>
+            </div>
+    </div>
+    {% endfor %} <!-- endfor loop here so another card made within card group -->
+</div>
+
+{% else %}
+ <div class="card mt-3">
+    <h3 class="mb-6 mx-5 card-title"> No Midfielders added to team</h3>
+    </div>
+ {% endif %} 
+
+<!-- Forward -->
+{% if attackers %}
+<div class="card-header text-left">Forwards</div>
+<div class="card-group m-3 pb-3">
+    {% for attack in attackers %} 
+        <div class="card" style="max-width: 14rem;">
+            {% if attack.profile_picture %} 
+                <img src="{{attack.profile_picture.url}}" alt="" class="card-img-top img-fluid">
+            {% else %}
+            <img src="{% static 'img/default_profile_pic.png' %}" alt="" class="card-img-top img-fluid">
+            {% endif %}
+            <div class="card-body">
+                <div class="card-title" style="font-weight:bold; font-size: larger;">{{attack.user.first_name}} {{attack.user.last_name}}</div>
+                <div class="card-subtitle font-weight-light">Forward</div>
+            </div>
+    </div>
+    {% endfor %} <!-- endfor loop here so another card made within card group -->
+</div>
+
+{% else %}
+ <div class="card mt-3">
+    <h3 class="mb-6 mx-5 card-title"> No Forwards added to team</h3>
+    </div>
+ {% endif %} 
+
+
+
+{% endblock %}

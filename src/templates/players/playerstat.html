@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block title %} PlayerStats {% endblock %} 
+{% load static %}
+{% block style %} 
+<link rel="stylesheet" href="{% static 'css/table.css' %}" /> 
+{% endblock %}
+{% block content %}
+<style>
+    
+</style>
+
+<h1 class="display-5 mt-3 offset-1">Player stats for {{user.playerprofile.team.name}}</h1>
+
+<table class="table table-striped content-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Appereances</th>
+        <th>Goals</th>
+        <th>Assists</th>
+        <th>yellow card</th>
+        <th>Red card</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table %}
+        {% if row.user.username == user.username %}
+      <tr class="active-row">
+        {% else %}
+        <tr>
+        {% endif %}
+        <th scope="row">{{row.user.first_name}} {{row.user.last_name}}</th>
+        <td>{{row.appereances}}</td>
+        <td>{{row.goals}}</td>
+        <td>{{row.assists}}</td>
+        <td>{{row.yellow_card}}</td>
+        <td>{{row.red_card}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endblock %}

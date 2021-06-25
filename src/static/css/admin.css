@@ -1,0 +1,40 @@
+#header{
+    background: white;
+    box-shadow: 2px 2px 5px #363433;
+}
+
+#branding h1{
+    color:black;
+}
+
+#user-tools{
+    color: #3498db;
+}
+#header a:link{
+    color: #3498db;
+}
+
+#header a:link, #header a:visited{
+    color: #3498db;
+}
+
+.module h2, .module caption, .inline-group h2{
+    background: black;
+}
+a:link, a:visited {
+    color: #3498db;
+}
+
+#content-related{
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+#content-related .module h2{
+    text-decoration: underline;
+}
+
+#content > h1{
+    font-family: "Courier New", Courier, monospace;
+    color: #3498db;
+    word-spacing: 0.5rem;
+}

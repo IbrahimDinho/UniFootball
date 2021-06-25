@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% block title %} Table {% endblock %} 
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+  <h1 style="text-align: center">YOUR SCORE</h1>
+  <h2 style="text-align: center" id="finalScore"></h2>
+  <button id="play-again" class="btn btn-primary offset-1 mb-2">
+    Play again
+  </button>
+  <button id="return-home" class="btn btn-danger offset-1">
+    Return to Homepage
+  </button>
+</div>
+<script>
+  const username = document.getElementById("username");
+  const saveScoreBtn = document.getElementById("saveScoreBtn");
+  const finalScore = document.getElementById("finalScore");
+  //to show recent score
+  const mostRecentScore = localStorage.getItem("mostRecentScore");
+
+  const MAX_HIGH_SCORES = 5;
+  finalScore.innerText = mostRecentScore;
+
+  document.getElementById("return-home").onclick = function () {
+    location.href = "{% url 'index' %}";
+  };
+  document.getElementById("play-again").onclick = function () {
+    location.href = "{% url 'quizquestions' %}";
+  };
+</script>
+<style>
+  body {
+    background-color: #f9fafb;
+    font-family: "Open Sans", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  
+</style>
+{% endblock %}

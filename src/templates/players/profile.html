@@ -1,0 +1,50 @@
+{% extends "base.html" %} {% block title %} Profile {% endblock %} 
+{% load static %}
+
+{% block content %}
+
+<style>
+	.profile-pic{
+		max-width: 200px;
+		max-height:200px;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+    form {
+        padding : 5px;
+    }
+    form p {
+        padding : 5px;
+    }
+</style>
+
+<br>
+<div class="row">
+	<div class="col-md-3">
+		<div class="card card-body">
+			<a class="btn btn-warning" href="{% url 'index' %}"> &#8592; Back to Homepage</a>
+			<hr>
+			<h3 style="text-align: center">Profile Settings of {{ user.username }}</h3>
+			<hr>
+            {% if user.playerprofile.profile_picture %}
+			<img class="profile-pic card-img" src="{{request.user.playerprofile.profile_picture.url}}" >
+            {% else %} 
+                <img src="{% static 'img/default_profile_pic.png' %}" alt="default-profile" class="profile-pic card-img">
+            {% endif %}
+        </div>
+	</div>
+	<div class="col-md-9">
+		<div class="card card-body">
+			<h6 class="display-5 mt-1 pt-1 mb-2 py-4">You can update your Player Profile</h6>
+			<form method="POST" action="" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{form.as_p}}
+		
+			<input class="btn btn-outline-primary" type="submit" name="Update Information">
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+

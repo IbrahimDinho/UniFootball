@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %} Fixtures {% endblock %} 
+{% load static %}
+{% block style %} 
+<link rel="stylesheet" href="{% static 'css/table.css' %}" /> 
+{% endblock %}
+{%block content %}
+<div class="row">
+    <div class="col-1 offset-2">
+      <img src="{% static 'img/futbol-solid.svg'%}" width="70" height="90" alt="football" />
+    </div>
+    <div class="col"><h3 class="display-3">University London League</h3></div>
+  </div>
+
+  <h1 class="display-5 mt-3 offset-5">Fixtures</h1>
+
+<table class="table table-striped content-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Home Team</th>
+        <th>Away Team</th>
+        <th>Venues</th>
+        <th>Competition</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in fixture %}
+      <tr>
+        <th scope="row">{{ row.date_match }}</th>
+        <td>{{ row.home_team }}</td>
+        <td>{{ row.away_team }}</td>
+        <td>{{ row.venue }}</td>
+        <td>{{ row.competition }}</td>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+{% endblock %}

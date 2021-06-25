@@ -1,0 +1,22 @@
+h3 {
+  text-align: left;
+  justify-content: center;
+  font-family: "Times New Roman", Times, serif;
+}
+h1 {
+  font-family: "Courier New", Courier, monospace;
+  color: #3498db;
+}
+.content-table {
+  margin-top: 2%;
+}
+.content-table thead tr {
+  background-color: #3498db;
+  color: white;
+  font-size: large;
+}
+
+.active-row {
+  font-weight: bold;
+  background-color: #3498db;
+}

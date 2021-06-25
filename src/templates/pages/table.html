@@ -1,0 +1,75 @@
+{% extends "base.html" %} {% block title %} Table {% endblock %} 
+{% load static %}
+{% block style %} 
+<link rel="stylesheet" href="{% static 'css/table.css' %}" /> 
+{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col-1 offset-2">
+    <img src="{% static 'img/futbol-solid.svg' %}" width="70" height="90" alt="football" />
+  </div>
+  <div class="col"><h3 class="display-3">University League</h3></div>
+</div>
+
+
+
+{% if leagues %}
+<div class="form-container">
+<form id="myForm" method="POST" action="{% url 'table' %}" class="form-control">
+  {% csrf_token %}
+  <div>
+  <label for="league">Select league:</label>
+</div>
+  <select name="league" id="league" class="form-control">
+    {% for league in leagues %}
+        {% if league.name == selectedleague %} 
+      <option value="{{league.name}}" class="form-control" selected> {{league.name}}</option>
+        {% else %}
+      <option value="{{league.name}}" class="form-control"> {{league.name}}</option>
+        {% endif %}
+    {% endfor %}
+  </select>
+  <input class="btn btn-outline-primary" type="submit" value="Select">
+</form>
+</div>
+{% endif %}
+
+<h1 class="display-5 mt-3 offset-5">Standings</h1>
+
+<table class="table table-striped content-table">
+  <thead>
+    <tr>
+      <th>Position</th>
+      <th>Team</th>
+      <th>Played</th>
+      <th>Wins</th>
+      <th>Loss</th>
+      <th>Draw</th>
+      <th>Points</th>
+      <th>Goal Difference</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in table %}
+        {% if row.team.name == request.user.playerprofile.team.name %}
+      <tr class="active-row">
+        {% else %}
+      <tr>
+        {% endif %}
+        
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{row.team.name}}</td>
+      <td>{{row.get_games_played}}</td>
+      <td>{{row.won}}</td>
+      <td>{{row.loss}}</td>
+      <td>{{row.draw}}</td>
+      <td>{{row.get_points}}</td>
+      <td>{{row.get_goal_difference}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+{% endblock %}

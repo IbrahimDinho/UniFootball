@@ -1,0 +1,88 @@
+{% extends "base.html" %} {% block title %} Premier League {% endblock %} 
+{% load static %}
+{% block style %} 
+<link rel="stylesheet" href="{% static 'css/table.css' %}" /> 
+{% endblock %}
+{%block content %}
+<div class="row">
+    <div class="col-1 offset-2">
+      <img
+        src="{% static 'img/premierleague.jpg' %}"
+        width="90"
+        height="90"
+        alt="football"
+      />
+    </div>
+    <div class="col">
+      <h3 style="color: purple" class="display-3">Premier League</h3>
+    </div>
+  </div>
+
+  <h1
+    class="display-5 mt-3 offset-4"
+    style="color: purple !important; font-size: 28px"
+  >
+    Live league table
+  </h1>
+
+  <table class="table table-striped content-table">
+    <thead>
+      <tr style="background-color: purple !important">
+        <th>Position</th>
+        <th>Club</th>
+        <th>Played</th>
+        <th>Won</th>
+        <th>Drawn</th>
+        <th>Lost</th>
+        <th>GA</th>
+        <th>GF</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody id="data"></tbody>
+  </table>
+  <script>
+    
+    //   fetch(
+    //     "https://heisenbug-premier-league-live-scores-v1.p.rapidapi.com/api/premierleague/table",
+    //     {
+    //       method: "GET",
+    //       headers: {
+    //         "x-rapidapi-key":
+    //           "5f38899d7amshc1850941093b342p10b8dejsn5580c76bb03c",
+    //         "x-rapidapi-host":
+    //           "heisenbug-premier-league-live-scores-v1.p.rapidapi.com",
+    //       },
+    //     }
+    //   )
+    //     .then((response) =>
+    //       response.json().then((data) => {
+    //         console.log(data.records);
+    //         let dataArray = data.records;
+    //         var temp = "";
+    //         var counter = 0;
+    //         dataArray.forEach((e) => {
+    //           counter += 1;
+    //           temp += "<tr>";
+    //           temp += "<td>" + counter + "</td>";
+    //           temp += "<td>" + e.team + "</td>";
+    //           temp += "<td>" + e.played + "</td>";
+    //           temp += "<td>" + e.win + "</td>";
+    //           temp += "<td>" + e.draw + "</td>";
+    //           temp += "<td>" + e.loss + "</td>";
+    //           temp += "<td>" + e.goalsAgainst + "</td>";
+    //           temp += "<td>" + e.goalsFor + "</td>";
+    //           temp += "<td>" + e.points + "</td>";
+    //         });
+    //         // Add onto table
+    //         document.getElementById("data").innerHTML = temp;
+    //       })
+    //     )
+
+    //     .catch((err) => {
+    //       console.error(err);
+    //     });
+  </script>
+  {% endblock %}
+
+

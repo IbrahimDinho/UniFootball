@@ -1,0 +1,201 @@
+{% load static %}
+{% block style %} 
+<link rel="stylesheet" href="{% static 'quizcss/questions.css' %}" /> 
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+<style>
+    .navbar {
+  box-shadow: 2px 2px 5px #363433;
+  background: #fff; }
+
+.nav-item {
+  font-size: 1.4rem;
+  padding-right: 1.6rem; }
+</style>
+{% endblock %}
+{% block content %}
+<!-- Navbar-->
+<nav class="navbar navbar-expand-md navbar-light fixed-top py-4">
+    <div class="containerone">
+      <a href="#" class="navbar-brand">
+        <img
+          src="{% static 'img/graduation-cap-solid.png' %}"
+          alt="hat"
+          width="50"
+          height="40"
+        />
+        <h3 class="d-inline align-middle">UniFootball</h3>
+      </a>
+     
+      <button
+        class="navbar-toggler"
+        data-toggle="collapse"
+        data-target="#navbarCollapse"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        
+        <ul class="navbar-nav ml-auto" style="margin-left: auto">
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a href="{% url 'profile' %}" {% if 'profile' in request.path  %}
+            class="nav-link active bg-info"
+          {% else %}
+            class="nav-link"
+          {% endif %}>Profile: {{user.username}}</a>
+          </li>
+          {% endif %}
+
+          <li class="nav-item">
+            <a href="{% url 'index' %}" 
+            {% if '/' == request.path  %}
+              class="nav-link active bg-info"
+            {% else %}
+              class="nav-link"
+            {% endif %}>
+            Home</a>
+          </li>
+
+<div class="container">
+    <div id="game" class="justify-center flex-column">
+      <div id="hud">
+        <div id="hud-item">
+          <p id="progressText" class="hud-prefix">Question</p>
+        </div>
+      </div>
+      <h3 id="question">Please wait while questions loads</h3>
+      <div class="choice-container">
+        <p class="choice-text" data-number="1">Choice 1</p>
+      </div>
+      <div class="choice-container">
+        <p class="choice-text" data-number="2">Choice 2</p>
+      </div>
+      <div class="choice-container">
+        <p class="choice-text" data-number="3">Choice 3</p>
+      </div>
+      <div class="choice-container">
+        <p class="choice-text" data-number="4">Choice 4</p>
+      </div>
+    </div>
+  </div>
+  <div id="hud-item">
+    <p class="hud-prefix">Score</p>
+    <h1 class="hud-main-text" id="score">0</h1>
+  </div>
+</body>
+<script>
+    const question = document.getElementById("question");
+const choices = Array.from(document.getElementsByClassName("choice-text"));
+const progressText = document.getElementById("progressText");
+const scoreText = document.getElementById("score");
+let currentQuestion = {};
+let acceptingAnswers = false;
+let score = 0;
+let questionCounter = 0;
+let availableQuesions = [];
+
+let questions = [];
+
+fetch(
+  "https://opentdb.com/api.php?amount=10&category=21&difficulty=medium&type=multiple"
+)
+  .then((res) => {
+    return res.json();
+  })
+  .then((loadedQuestions) => {
+    questions = loadedQuestions.results.map((loadedQuestion) => {
+      const formattedQuestion = {
+        question: loadedQuestion.question,
+      };
+
+      const answerChoices = [...loadedQuestion.incorrect_answers];
+      formattedQuestion.answer = Math.floor(Math.random() * 4) + 1;
+      answerChoices.splice(
+        formattedQuestion.answer - 1,
+        0,
+        loadedQuestion.correct_answer
+      );
+
+      answerChoices.forEach((choice, index) => {
+        formattedQuestion["choice" + (index + 1)] = choice;
+      });
+
+      return formattedQuestion;
+    });
+    startGame();
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+
+const CORRECT_BONUS = 1;
+const MAX_QUESTIONS = 5;
+
+let startGame = () => {
+  questionCounter = 0;
+  score = 0;
+  availableQuesions = [...questions];
+  getNewQuestion();
+};
+
+let getNewQuestion = () => {
+  if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+    localStorage.setItem("mostRecentScore", score);
+    return window.location.assign("{% url 'quizend' %}");
+  }
+  questionCounter++;
+  progressText.innerText = `Question ${questionCounter}/${MAX_QUESTIONS}`;
+
+  const questionIndex = Math.floor(Math.random() * availableQuesions.length);
+  currentQuestion = availableQuesions[questionIndex];
+  question.innerText = convert(`${currentQuestion.question}`);
+
+  choices.forEach((choice) => {
+    const number = choice.dataset["number"];
+    choice.innerText = convert(`${currentQuestion["choice" + number]}`);
+  });
+
+  availableQuesions.splice(questionIndex, 1);
+  acceptingAnswers = true;
+};
+
+choices.forEach((choice) => {
+  choice.addEventListener("click", (e) => {
+    if (!acceptingAnswers) return;
+
+    acceptingAnswers = false;
+    const selectedChoice = e.target;
+    const selectedAnswer = selectedChoice.dataset["number"];
+
+    const classToApply =
+      selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+
+    if (classToApply === "correct") {
+      incrementScore(CORRECT_BONUS);
+    }
+    // feedback green if correct otherwie red. through css.
+    selectedChoice.parentElement.classList.add(classToApply);
+
+    setTimeout(() => {
+      selectedChoice.parentElement.classList.remove(classToApply);
+      getNewQuestion();
+    }, 2000);
+  });
+});
+
+let incrementScore = (num) => {
+  score += num;
+  scoreText.innerText = score;
+};
+// deal with &039 error &quote where it show that that instead of apastrophe
+//doesnt deal with different lanage like e with dot ontop.
+function convert(string) {
+  return string.replace(/&#(?:x([\da-f]+)|(\d+));/gi, function (_, hex, dec) {
+    return String.fromCharCode(dec || +("0x" + hex));
+  });
+}
+</script>
+  
+{% endblock %}
+

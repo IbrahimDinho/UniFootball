@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block title %} Quiz {% endblock %} 
+{% load static %}
+{% block style %} 
+<link rel="stylesheet" href="{% static 'quizcss/index.css' %}" /> 
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div id="home" class="flex-center flex-column">
+      <h1 class="display-2">Sport quiz</h1>
+      <a class="btn btn-primary" href="{% url 'quizquestions' %}">Play</a>
+    </div>
+  </div>
+  
+{% endblock %}
